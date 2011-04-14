@@ -39,7 +39,7 @@ if($handle = opendir($imgdir)) {
         $extn = $pthpts['extension'];
         $name = $pthpts['filename'];
 
-        echo $fullpath;
+        // echo $fullpath;
 
         if (($extn != "tif") && ($extn != "tiff")) {
             continue;
@@ -120,32 +120,32 @@ if($handle = opendir($imgdir)) {
 };
 
 
-// $pgs = array();
-// if($handle = opendir($imgcache)) {
-//     while (false !== ($file = readdir($handle))) {
-//         if($file == "." || $file ==".." || $file == "docdata.txt") {
-//             continue;
-//         }
-//         $fullpath = $imgcache . "/" . $file;
-//         $pthpts = pathinfo($fullpath);
-//         $extn = $pthpts['extension'];
-//         $name = $pthpts['filename'];
-//         
-//         $imginfo = file_get_contents($fullpath);
-//         $f_data = unserialize($imginfo);
-//         $f_zdata = $f_data[$zlv]; // get the file's data at a given zoom level
-//         $pgs[] = $f_zdata;
-//     } //end while
-// } // end open handle
-// $f_dims = file_get_contents($gfile);
-// $dims = unserialize($f_dims);
-// 
-// $resp = array(
-//     'dims' => $dims,
-//     'pgs' => $pgs,
-//     "item_title" => $fid
-// );
-// 
-// echo json_encode($resp);
+$pgs = array();
+if($handle = opendir($imgcache)) {
+    while (false !== ($file = readdir($handle))) {
+        if($file == "." || $file ==".." || $file == "docdata.txt") {
+            continue;
+        }
+        $fullpath = $imgcache . "/" . $file;
+        $pthpts = pathinfo($fullpath);
+        $extn = $pthpts['extension'];
+        $name = $pthpts['filename'];
+        
+        $imginfo = file_get_contents($fullpath);
+        $f_data = unserialize($imginfo);
+        $f_zdata = $f_data[$zlv]; // get the file's data at a given zoom level
+        $pgs[] = $f_zdata;
+    } //end while
+} // end open handle
+$f_dims = file_get_contents($gfile);
+$dims = unserialize($f_dims);
+
+$resp = array(
+    'dims' => $dims,
+    'pgs' => $pgs,
+    "item_title" => $fid
+);
+
+echo json_encode($resp);
 
 ?>
